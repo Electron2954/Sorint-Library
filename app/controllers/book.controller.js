@@ -29,14 +29,18 @@ module.exports = {
     },
 
     async update(req,res) {
-
         try{
             const booksCollection = await Book.find({
-                id : req.params.Id
+                id : req.params.id
             });
             if(booksCollection){
                 const updatedBook = await Book.update({
-                    id : req.body.email
+                    title : req.body.title,
+                    genre: req.body.genre
+                }, {
+                    where: {
+                        id: req.params.id
+                    }
                 });
                 res.status(201).send(updatedBook)
             }

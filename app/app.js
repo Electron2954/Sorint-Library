@@ -2,14 +2,14 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 // const bookRoutes = require("./routes/BookRoutes")
-// import bookRoutes from './routes/book.routes.js';
+// import bookRoutes from './routes/routes.js';
 
 const app = express();
 
 app.use(cors());
 app.use(bodyParser.json());
 
-require('./routes/book.routes.js')(app);
+require('./routes/routes.js')(app);
 
 const port = process.env.PORT || 8000;
 
