@@ -1,6 +1,8 @@
 name: Deploy Node to Amazon ECR
 on: 
   workflow_dispatch:
+    branches:
+    - develop
     inputs:
       logLevel:
         description: 'Log level'     
