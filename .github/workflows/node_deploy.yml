@@ -18,7 +18,8 @@ jobs:
         access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
         secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         account_id: ${{ secrets.AWS_ACCOUNT_ID }}
-        path: app
+        path: ./app
+        dockerfile: ./app/Dockerfile 
         repo: test_ecr_repo
         region: eu-west-1
         tags: latest,${{ github.sha }}
