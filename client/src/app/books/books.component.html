@@ -1,0 +1,58 @@
+<div>
+  <h1 class="h1">Sorint Library</h1>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between stretch" class="books">
+    <table mat-table fxFlex="100%" fxFlex.gt-sm="66%" [dataSource]="dataSource" class="mat-elevation-z1">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef> Title</th>
+        <td mat-cell *matCellDef="let book"> {{book.title}}</td>
+      </ng-container>
+      <ng-container matColumnDef="genre">
+        <th mat-header-cell *matHeaderCellDef> Genre</th>
+        <td mat-cell *matCellDef="let book"> {{book.genre}}</td>
+      </ng-container>
+      <ng-container matColumnDef="edit">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let book">
+          <button mat-icon-button (click)="editBook(book)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let book">
+          <button mat-icon-button (click)="deleteBook(book)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  <!--  <mat-divider fxShow="false" fxShow.gt-sm [vertical]="true"></mat-divider>-->
+  <!--  <div>-->
+  <!--    <h2>Selected Book</h2>-->
+  <!--    <label>Name-->
+  <!--      <input type="text" [(ngModel)]="selectedBook.name">-->
+  <!--    </label>-->
+  <!--    <label>SKU-->
+  <!--      <input type="text" [(ngModel)]="selectedBook.sku">-->
+  <!--    </label>-->
+  <!--    <label>Description-->
+  <!--      <input type="text" [(ngModel)]="selectedBook.description">-->
+  <!--    </label>-->
+  <!--    <label>Price-->
+  <!--      <input type="text" [(ngModel)]="selectedBook.price">-->
+  <!--    </label>-->
+  <!--    <label>Stock Level-->
+  <!--      <input type="text" [(ngModel)]="selectedBook.stock">-->
+  <!--    </label>-->
+  <!--    <button mat-flat-button color="primary" (click)="updateBook()">{{(selectedBook.id!==undefined)?'Update':'Create'}}</button>-->
+  <!--    <button mat-flat-button color="primary" (click)="clearBook()">Clear</button>-->
+  <!--  </div>-->
+    <div class="loading" *ngIf="loading">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
