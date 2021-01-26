@@ -25,10 +25,7 @@ jobs:
         region: eu-west-1
         tags: latest,${{ github.sha }}
   run-task:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macOS-10.14, windows-2016, ubuntu-18.04]
+    runs-on: ubuntu-latest
     steps:
     - uses: chrislennon/action-aws-cli@v1.1
     - run: aws ecs run-task --cluster node-backend-01 --task-definition run-node-server:1 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
