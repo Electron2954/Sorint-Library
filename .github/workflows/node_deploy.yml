@@ -28,12 +28,16 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-    - name: Deploy
-    - uses: actions/checkout@v2
-    - uses: docker://amazon/aws-cli:2.0.7
-      env:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         AWS_DEFAULT_REGION: eu-west-1
-        AWS_DEFAULT_OUTPUT: yaml
-    - run: aws ecs run-task --cluster node-backend-01 --task-definition run-node-server:1 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
+
+    - name: Run task in ECS
+      run: |
+        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server:1 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
