@@ -1,0 +1,45 @@
+name: Build
+on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'info'
+      tags:
+        description: 'Test scenario tags' 
+#   push:
+#     branches:
+#       - develop
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: client
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Node $
+        uses: actions/setup-node@v1
+
+      - name: npm install and npm run build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+    
+      - name: Deploy Angular to S3 bucket
+        run: |
+          aws s3 cp ./dist/client/ s3://s3-bucket-name-kszyho8/ --recursive
