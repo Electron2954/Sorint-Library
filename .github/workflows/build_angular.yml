@@ -1,8 +1,16 @@
 name: Build
 on:
-  push:
-    branches:
-      - develop
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'info'
+      tags:
+        description: 'Test scenario tags' 
+#   push:
+#     branches:
+#       - develop
 
 jobs:
   build:
@@ -19,8 +27,6 @@ jobs:
 
       - name: Node $
         uses: actions/setup-node@v1
-        with:
-          node-version: $
 
       - name: npm install and npm run build
         run: |
@@ -36,4 +42,4 @@ jobs:
     
       - name: Deploy Angular to S3 bucket
         run: |
-          aws s3 cp ./dist/client/ s3://s3-bucket-name-kszyho8/ --recursive
+          aws s3 cp ./dist/client/ s3://s3-sorint-library/ --recursive
