@@ -40,4 +40,4 @@ jobs:
 
     - name: Run task in ECS
       run: |
-        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server:1 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
+        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server-01:1 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
