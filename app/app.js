@@ -13,7 +13,7 @@ const port = process.env.PORT || 8000;
 
 // when a random route is inputed
 app.get('*', (req, res) => res.status(200).send({
-    message: 'Welcome to this API.'
+    message: 'Welcome to this API?'
 }));
 
 app.listen(port, () => {
