@@ -42,8 +42,4 @@ jobs:
     
       - name: Deploy Angular to S3 bucket
         run: |
-<<<<<<< HEAD
           aws s3 cp ./dist/client/ s3://s3-sorint-library/ --recursive
-=======
-          aws s3 cp ./dist/client/ s3://s3-bucket-name-kszyho8/ --recursive
->>>>>>> bc675ff4f6872e49ea6cd20b215fb0a53aa1f939
