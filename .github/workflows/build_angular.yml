@@ -31,7 +31,7 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm ci
-          npm run build:prod -- --prod
+          npm run build:prod
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
