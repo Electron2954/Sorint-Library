@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { HttpResponse } from '@angular/common/http'
 import { Books } from './books'
 
-const baseUrl = 'http://localhost:8000/api/v1';
+const baseUrl = 'http://sorint-library.matuszewskiszymon.pl:8000/api/v1';
 
 @Injectable()
 export class BooksService {
