@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { HttpResponse } from '@angular/common/http'
 import { Books } from './books'
-
-const baseUrl = 'http://localhost:8000/api/v1';
+import {environment} from "../../environments/environment";
 
 @Injectable()
 export class BooksService {
@@ -25,62 +24,24 @@ export class BooksService {
   }
 
   getAllBooks() {
-    return this.request('get', `${baseUrl}/books`);
+    return this.request('get', `${environment.apiUrl}/books`);
   }
 
-  getBook(id: string) {
-    return this.request('get', `${baseUrl}/books/${id}`);
+  getBook(id: bigint) {
+    return this.request('get', `${environment.apiUrl}/books/${id}`);
   }
 
   createBook(book: Books) {
     console.log('createBooks ' + JSON.stringify(book));
-    return this.request('post', `${baseUrl}/books`, book);
+    return this.request('post', `${environment.apiUrl}/books`, book);
   }
 
   updateBook(book: Books) {
     console.log('updateBooks ' + JSON.stringify(book));
-    return this.request('post', `${baseUrl}/books/${book.id}`, book);
+    return this.request('post', `${environment.apiUrl}/books/${book.id}`, book);
   }
 
   deleteBook(id: bigint) {
-    return this.request('delete', `${baseUrl}/books/${id}`);
+    return this.request('delete', `${environment.apiUrl}/books/${id}`);
   }
-
-  // // get("/api/contacts")
-  // getAllBooks(): Promise<void | Books[]> {
-  //   return this.http.get(this.baseUrl)
-  //     .toPromise()
-  //     .then(response => response as Books[])
-  //     .catch(this.handleError);
-  // }
-  //
-  //
-  // private handleError (error: any) {
-  //   let errMsg = (error.message) ? error.message :
-  //     error.status ? `${error.status} - ${error.statusText}` : 'Server error';
-  //   console.error(errMsg); // log to console instead
-  // }
-  //
-  // getAllBooks(): Observable<Books[]> {
-  //   return this.http.get<Books[]>(`${baseUrl}`)
-  // }
-  //
-  // getBook(title: string): Observable<Books> {
-  //   return this.http.get<Books>(`${baseUrl}/${title}`)
-  // }
-  //
-  // insertBook(book: Books): Observable<Books> {
-  //   return this.http.post<Books>(`${baseUrl}`, book)
-  // }
-  //
-  // updateBook(book: Books): Observable<void> {
-  //   return this.http.put<void>(
-  //     `${baseUrl}/${book.title}`,
-  //     book
-  //   )
-  // }
-  //
-  // deleteBook(id: bigint) {
-  //   return this.http.delete(`${baseUrl}/api/v1/books/${id}`)
-  // }
 }
