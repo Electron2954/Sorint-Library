@@ -53,5 +53,5 @@ jobs:
         cmd: jq -n env
     - name: Check task id
       run: |
-        cmd: TASK_ARN=$(aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0])
+        TASK_ARN=$(aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0])
         echo ${TASK_ARN}
