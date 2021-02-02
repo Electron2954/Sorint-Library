@@ -50,7 +50,7 @@ jobs:
     - name: Get task ARN
       uses: r26d/jq-action@master
       with:
-        cmd: TAKS_ARN=${aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0]}
+        cmd: TAKS_ARN=$(aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0])
     - name: Check task id
       run: |    
         echo $TASK_ARN
