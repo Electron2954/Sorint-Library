@@ -56,6 +56,8 @@ jobs:
         TASK_ARN=$(aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0])
         NETWORK_INTERFACE=$(aws ecs describe-tasks --cluster node-backend-01 --task ${TASK_ARN} --output json | jq '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value')
         TASK_IP=$(aws ec2 describe-network-interfaces --network-interface-ids ${NETWORK_INTERFACE} --output json | jq .NetworkInterfaces[0].Association.PublicIp)
+        
+        echo "{\"type\":\"A\",\"name\":\"sorint-library.monitit.pl\",\"content\":\"$TASK_IP\",\"ttl\":120}"
 
         curl -X PUT "https://api.cloudflare.com/client/v4/zones/db7efe0245cd53e944abeeecf64c1dae/dns_records/1e0ea4fc4ed148fd6cccbb4faeb9ac3e" \
         -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_TOKEN }}" \
