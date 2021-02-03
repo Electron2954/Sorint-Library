@@ -66,8 +66,8 @@ jobs:
 
     - name: Get task IP
       run: |
-        echo taks_arn: $TASK_ARN
-        echo network_interface: $NETWORK_INTERFACE
+        echo taks_arn: ${TASK_ARN}
+        echo network_interface: $(NETWORK_INTERFACE)
         echo task_ip: $TASK_IP
 
     - name: Update DNS
