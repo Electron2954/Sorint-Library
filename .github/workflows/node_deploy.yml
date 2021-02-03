@@ -54,7 +54,7 @@ jobs:
 
     - name: Get task ARN CDN
       run: |
-        TASK_ARN=$(aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0])
+        aws ecs list-tasks --cluster node-backend-01 --output json | jq .taskArns[0] > TASK_ARN
 
     - name: Get Network interface ID
       run: |
@@ -66,7 +66,7 @@ jobs:
 
     - name: Get task IP
       run: |
-        echo taks_arn: ${TASK_ARN}
+        echo taks_arn: $(cat TASK_ARN)
         echo network_interface: $(NETWORK_INTERFACE)
         echo task_ip: $TASK_IP
 
