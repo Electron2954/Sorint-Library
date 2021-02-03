@@ -8,7 +8,7 @@ Install Launch app
 ```
 cd \app$ npm init -y
 npm install --save express body-parser cors pg
-node app.js
+npm run dev
 ```
 Install Launch client
 ```

@@ -12,6 +12,17 @@ module.exports = {
         }
     },
 
+    async getBook(req, res) {
+        try {
+            const book = await Book.findByPk(req.params.id);
+            res.status(201).send(book);
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
+        }
+    },
+
     async create(req,res) {
         try {
             const booksCollection = await Book

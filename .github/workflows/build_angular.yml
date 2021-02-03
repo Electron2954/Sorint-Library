@@ -31,7 +31,7 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm ci
-          npm run build
+          npm run build:prod
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -42,4 +42,4 @@ jobs:
     
       - name: Deploy Angular to S3 bucket
         run: |
-          aws s3 cp ./dist/client/ s3://s3-bucket-name-kszyho8/ --recursive
+          aws s3 cp ./dist/client/ s3://s3-sorint-library/ --recursive

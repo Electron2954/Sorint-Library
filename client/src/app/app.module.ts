@@ -15,11 +15,15 @@ import {MatDividerModule} from "@angular/material/divider";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {FormsModule} from "@angular/forms";
 import {BooksService} from "./books/books.service";
+import {NavBarComponent} from "./nav/navbar.component";
+import { BookDetailsComponent } from './books/book-details/book-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BooksComponent
+    BooksComponent,
+    NavBarComponent,
+    BookDetailsComponent
   ],
   imports: [
     BrowserModule,
