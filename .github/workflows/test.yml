@@ -16,6 +16,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Run task in ECS
-        run: |
-          TEST="127.0.0.1"
-          echo "test $TEST 123"
+      run: |
+        TEST="127.0.0.1"
+        echo "test $TEST 123"
