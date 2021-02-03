@@ -18,4 +18,4 @@ jobs:
     - name: Run task in ECS
       run: |
         TEST="127.0.0.1"
-        echo "test $TEST 123"
+        echo "{\"type\":\"A\",\"name\":\"sorint-library.monitit.pl\",\"content\":$TASK,\"ttl\":120}"
