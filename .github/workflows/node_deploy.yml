@@ -58,7 +58,7 @@ jobs:
 
     - name: Get Network interface ID
       run: |
-        aws ecs describe-tasks --cluster node-backend-01 --task $(cat TASK_ARN) --output json | jq '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value' > NETWORK_INTERFACE
+        aws ecs describe-tasks --cluster node-backend-01 --task "$(cat TASK_ARN)" --output json | jq '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value' > NETWORK_INTERFACE
 
     - name: Get task IP
       run: |
