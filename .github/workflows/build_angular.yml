@@ -1,16 +1,19 @@
 name: Build
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       logLevel:
+#         description: 'Log level'     
+#         required: true
+#         default: 'info'
+#       tags:
+#         description: 'Test scenario tags' 
 on:
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'info'
-      tags:
-        description: 'Test scenario tags' 
-#   push:
-#     branches:
-#       - develop
+  push:
+    paths:
+    - 'client/**'
+    branches:
+    - develop
 
 jobs:
   build:
