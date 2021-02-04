@@ -58,11 +58,11 @@ jobs:
 
     - name: Get Network interface ID
       run: |
-        aws ecs describe-tasks --cluster node-backend-01 --task ${TASK_ARN} --output json | jq '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value' > NETWORK_INTERFACE
+        aws ecs describe-tasks --cluster node-backend-01 --task $(cat TASK_ARN) --output json | jq '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value' > NETWORK_INTERFACE
 
     - name: Get task IP
       run: |
-        aws ec2 describe-network-interfaces --network-interface-ids ${NETWORK_INTERFACE} --output json | jq .NetworkInterfaces[0].Association.PublicIp > TASK_IP
+        aws ec2 describe-network-interfaces --network-interface-ids $(cat NETWORK_INTERFACE) --output json | jq .NetworkInterfaces[0].Association.PublicIp > TASK_IP
 
     - name: Get task IP
       run: |
