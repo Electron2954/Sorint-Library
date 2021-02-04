@@ -75,5 +75,5 @@ jobs:
         echo "{\"type\":\"A\",\"name\":\"sorint-library.monitit.pl\",\"content\":$TASK_IP,\"ttl\":120}"
         curl -X PUT "https://api.cloudflare.com/client/v4/zones/db7efe0245cd53e944abeeecf64c1dae/dns_records/1e0ea4fc4ed148fd6cccbb4faeb9ac3e" \
         -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_TOKEN }}" \
-        -H "Content-type: application/json" \
+        -H "Content-Type: application/json" \
         --data "{\"type\":\"A\",\"name\":\"sorint-library.monitit.pl\",\"content\":$(cat ASK_IP),\"ttl\":120}"
