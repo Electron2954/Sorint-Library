@@ -1,15 +1,10 @@
 name: Deploy Node to Amazon ECR
-on: 
-  workflow_dispatch:
+on:
+  push:
+    paths:
+    - 'app/**'
     branches:
     - develop
-    inputs:
-      logLevel:
-        description: 'Log level'     
-        required: true
-        default: 'info'
-      tags:
-        description: 'Test scenario tags'  
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -41,4 +36,35 @@ jobs:
 
     - name: Run task in ECS
       run: |
-        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server-01:1 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
+        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server-02:2 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
+    
+    - name: Migrate databes
+      run: |
+        aws ecs run-task --cluster node-backend-01 --task-definition node-migrate-db:1 --platform-version 1.4.0 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
+    
+    - name: Get task ARN
+      uses: r26d/jq-action@master
+      with:
+        cmd: jq -n env
+
+    - name: Get task ARN CDN
+      run: |
+        aws ecs list-tasks --cluster node-backend-01 --output json | jq -r .taskArns[0] > TASK_ARN
+    - name: Get Network interface ID
+      run: |
+        aws ecs describe-tasks --cluster node-backend-01 --task $(cat TASK_ARN) --output json | jq -r '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value' > NETWORK_INTERFACE
+    - name: Get task IP
+      run: |
+        aws ec2 describe-network-interfaces --network-interface-ids $(cat NETWORK_INTERFACE) --output json | jq -r .NetworkInterfaces[0].Association.PublicIp > TASK_IP
+    - name: Get task IP
+      run: |
+        echo taks_arn: $(cat TASK_ARN)
+        echo network_interface: $(cat NETWORK_INTERFACE)
+        echo task_ip: $(cat TASK_IP)
+    - name: Update DNS
+      run: |
+        echo "{\"type\":\"A\",\"name\":\"sorint-library.monitit.pl\",\"content\":"$(cat TASK_IP)",\"ttl\":120}"
+        curl -X PUT "https://api.cloudflare.com/client/v4/zones/db7efe0245cd53e944abeeecf64c1dae/dns_records/1e0ea4fc4ed148fd6cccbb4faeb9ac3e" \
+        -H "Authorization: Bearer ${{ secrets.CLOUDFLARE_TOKEN }}" \
+        -H "Content-Type: application/json" \
+        --data "{\"type\":\"A\",\"name\":\"sorint-library.monitit.pl\",\"content\":\"$(cat TASK_IP)\",\"ttl\":120}"
