@@ -12,6 +12,17 @@ module.exports = {
         }
     },
 
+    async getAuthor(req, res) {
+        try {
+            const book = await Author.findByPk(req.params.id);
+            res.status(201).send(book);
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
+        }
+    },
+
     async create(req,res) {
         try {
             const authorsCollection = await Author
@@ -31,9 +42,7 @@ module.exports = {
 
     async update(req,res) {
         try{
-            const authorsCollection = await Author.find({
-                id : req.params.id
-            });
+            const authorsCollection = await Author.findByPk(req.params.id);
             if(authorsCollection){
                 const updatedAuthor = await Author.update({
                     name: req.body.name,
@@ -45,6 +54,27 @@ module.exports = {
                     }
                 });
                 res.status(201).send(updatedAuthor)
+            }
+            else{
+                res.status(404).send("Author Not Found");
+            }
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
+        }
+    },
+
+    async delete(req, res) {
+        try{
+            const authorsCollection = await Author.findByPk(req.params.id);
+            if(authorsCollection){
+                const deletedAuthor = await Author.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                });
+                res.status(deletedAuthor);
             }
             else{
                 res.status(404).send("Author Not Found");

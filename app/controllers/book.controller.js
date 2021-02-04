@@ -41,9 +41,7 @@ module.exports = {
 
     async update(req,res) {
         try{
-            const booksCollection = await Book.find({
-                id : req.params.id
-            });
+            const booksCollection = await Book.findByPk(req.params.id);
             if(booksCollection){
                 const updatedBook = await Book.update({
                     title : req.body.title,
@@ -54,6 +52,27 @@ module.exports = {
                     }
                 });
                 res.status(201).send(updatedBook)
+            }
+            else{
+                res.status(404).send("Book Not Found");
+            }
+        }
+        catch(e){
+            console.log(e);
+            res.status(500).send(e);
+        }
+    },
+
+    async delete(req, res) {
+        try{
+            const booksCollection = await Book.findByPk(req.params.id);
+            if(booksCollection){
+                const deletedBook = await Book.destroy({
+                    where: {
+                        id: req.params.id
+                    }
+                });
+                res.status(deletedBook);
             }
             else{
                 res.status(404).send("Book Not Found");

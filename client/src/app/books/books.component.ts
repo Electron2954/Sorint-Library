@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { BooksService } from './books.service';
-import { Books } from './books';
+import { Book } from './book';
 
 @Component({
   selector: 'app-books',
@@ -13,7 +13,7 @@ export class BooksComponent implements OnInit {
   displayedColumns: string[] = ['title', 'genre', 'edit', 'delete'];
   dataSource = new MatTableDataSource<any>();
 
-  selectedBook: Books = new Books();
+  selectedBook: Book = new Book();
   loading = false;
 
   constructor(public booksService: BooksService) { }
@@ -35,19 +35,19 @@ export class BooksComponent implements OnInit {
     } else {
       await this.booksService.createBook(this.selectedBook);
     }
-    this.selectedBook = new Books();
+    this.selectedBook = new Book();
     await this.refresh();
   }
 
-  editBook(book: Books) {
+  editBook(book: Book) {
     this.selectedBook = book;
   }
 
   clearBook() {
-    this.selectedBook = new Books();
+    this.selectedBook = new Book();
   }
 
-  async deleteBook(book: Books) {
+  async deleteBook(book: Book) {
     this.loading = true;
     if (confirm(`Are you sure you want to delete the book ${book.title}. This cannot be undone.`)) {
       if (book.id != null) {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {BooksService} from "../books.service";
 import {ActivatedRoute} from "@angular/router";
-import {Books} from "../books";
+import {Book} from "../book";
 
 @Component({
   templateUrl: './book-details.component.html',
@@ -9,7 +9,7 @@ import {Books} from "../books";
 })
 export class BookDetailsComponent implements OnInit {
 
-  book = new Books();
+  book = new Book();
 
   constructor(public booksService: BooksService, private route:ActivatedRoute) { }
 

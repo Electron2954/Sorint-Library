@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { HttpResponse } from '@angular/common/http'
-import { Books } from './books'
+import { Book } from './book'
 import {environment} from "../../environments/environment";
 
 @Injectable()
@@ -23,20 +23,20 @@ export class BooksService {
     });
   }
 
-  getAllBooks() {
-    return this.request('get', `${environment.apiUrl}/books`);
+  async getAllBooks():Promise<Book[]> {
+    return await this.request('get', `${environment.apiUrl}/books`);
   }
 
   getBook(id: bigint) {
     return this.request('get', `${environment.apiUrl}/books/${id}`);
   }
 
-  createBook(book: Books) {
+  createBook(book: Book) {
     console.log('createBooks ' + JSON.stringify(book));
     return this.request('post', `${environment.apiUrl}/books`, book);
   }
 
-  updateBook(book: Books) {
+  updateBook(book: Book) {
     console.log('updateBooks ' + JSON.stringify(book));
     return this.request('post', `${environment.apiUrl}/books/${book.id}`, book);
   }
