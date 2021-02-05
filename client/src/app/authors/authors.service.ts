@@ -38,7 +38,7 @@ export class AuthorsService {
 
   updateAuthor(author: Author) {
     console.log('updateAuthors ' + JSON.stringify(author));
-    return this.request('post', `${environment.apiUrl}/authors/${author.id}`, author);
+    return this.request('put', `${environment.apiUrl}/authors/${author.id}`, author);
   }
 
   deleteAuthor(id: bigint) {

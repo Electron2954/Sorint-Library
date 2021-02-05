@@ -38,7 +38,7 @@ export class BooksService {
 
   updateBook(book: Book) {
     console.log('updateBooks ' + JSON.stringify(book));
-    return this.request('post', `${environment.apiUrl}/books/${book.id}`, book);
+    return this.request('put', `${environment.apiUrl}/books/${book.id}`, book);
   }
 
   deleteBook(id: bigint) {
