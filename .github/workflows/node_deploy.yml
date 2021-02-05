@@ -36,7 +36,9 @@ jobs:
 
     - name: Run task in ECS
       run: |
-        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server-02:2 --count 1 --launch-type FARGATE --network-configuration "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}"
+        aws ecs run-task --cluster node-backend-01 --task-definition run-node-server-02:2 --count 1 --launch-type FARGATE --network-configuration \
+        "awsvpcConfiguration={subnets=[subnet-0e3ffc9169375ca9f, subnet-0eeebbe5e721dc898, subnet-05d127ebcd52a4ee7],securityGroups=[sg-0d286ce865164375e], assignPublicIp=ENABLED}" \
+        | jq -r .tasks[0].taskArn > TASK_ARN
     
     - name: Migrate databes
       run: |
@@ -47,16 +49,20 @@ jobs:
       with:
         cmd: jq -n env
 
-    - name: Get task ARN CDN
-      run: |
-        aws ecs list-tasks --cluster node-backend-01 --output json | jq -r .taskArns[0] > TASK_ARN
+    # - name: Get task ARN CDN
+    #   run: |
+    #     aws ecs list-tasks --cluster node-backend-01 --output json | jq -r .taskArns[0] > TASK_ARN
     - name: Get Network interface ID
       run: |
         aws ecs describe-tasks --cluster node-backend-01 --task $(cat TASK_ARN) --output json | jq -r '.tasks[].attachments[].details[] | select(.name == "networkInterfaceId").value' > NETWORK_INTERFACE
+    - name: Sleep for 5 seconds for IP to set up
+      uses: jakejarvis/wait-action@master
+      with:
+        time: '5s'
     - name: Get task IP
       run: |
         aws ec2 describe-network-interfaces --network-interface-ids $(cat NETWORK_INTERFACE) --output json | jq -r .NetworkInterfaces[0].Association.PublicIp > TASK_IP
-    - name: Get task IP
+    - name: Debug variables
       run: |
         echo taks_arn: $(cat TASK_ARN)
         echo network_interface: $(cat NETWORK_INTERFACE)
