@@ -40,3 +40,8 @@ and migrate
 npx sequelize-cli migration:generate --name addPassword
 npx sequelize-cli db:migrate
 ```
+Install Toastr
+```
+npm install ngx-toastr --save
+npm install @angular/animations --save
+```

@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { BooksService } from './books.service';
 import { Book } from './book';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-books',
@@ -16,7 +17,9 @@ export class BooksComponent implements OnInit {
   selectedBook: Book = new Book();
   loading = false;
 
-  constructor(public booksService: BooksService) { }
+  constructor(
+    public booksService: BooksService,
+    private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.refresh();
@@ -32,8 +35,10 @@ export class BooksComponent implements OnInit {
   async updateBook() {
     if (this.selectedBook.id !== undefined) {
       await this.booksService.updateBook(this.selectedBook);
+      this.toastr.success('Book Updated');
     } else {
       await this.booksService.createBook(this.selectedBook);
+      this.toastr.success('Book Created');
     }
     this.selectedBook = new Book();
     await this.refresh();
@@ -52,6 +57,7 @@ export class BooksComponent implements OnInit {
     if (confirm(`Are you sure you want to delete the book ${book.title}. This cannot be undone.`)) {
       if (book.id != null) {
         await this.booksService.deleteBook(book.id);
+        this.toastr.success('Book Deleted');
       }
     }
     await this.refresh();

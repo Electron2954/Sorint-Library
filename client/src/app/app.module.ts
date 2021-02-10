@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule} from "@angular/material/input";
 import {MatCard, MatCardModule} from "@angular/material/card";
 import { FormsModule } from "@angular/forms";
+import { ToastrModule } from 'ngx-toastr';
 
 import { BooksService} from "./books/books.service";
 import {NavBarComponent} from "./nav/navbar.component";
@@ -25,6 +26,7 @@ import { BookDetailsComponent } from './books/book-details/book-details.componen
 import {AuthorsService} from "./authors/authors.service";
 import { AuthorsComponent } from './authors/authors.component';
 import { AuthorProfileComponent } from './authors/author-profile/author-profile.component';
+
 
 @NgModule({
   declarations: [
@@ -54,8 +56,13 @@ import { AuthorProfileComponent } from './authors/author-profile/author-profile.
     MatInputModule,
     FormsModule,
     MatCardModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
-  providers: [BooksService, AuthorsService],
+  providers: [
+    BooksService,
+    AuthorsService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
